@@ -1,5 +1,4 @@
-# IPC
-Simple Project-Specific Inter-process Communication Library
+#NOTE: Please open in md viewer
 
 #[DRAFT] Classes
 TODO: replace with pydoc once code is written
