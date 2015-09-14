@@ -1,3 +1,7 @@
+"""
+This module contains classes for sending/receiving encoded data over
+IPC sockets.
+"""
 import json
 class MessageObject(object):
     """
