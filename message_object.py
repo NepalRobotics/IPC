@@ -2,7 +2,7 @@
 This module contains classes for sending/receiving encoded data over
 IPC sockets.
 """
-import json
+import json, inspect
 class MessageObject(object):
     """
     Class representing an IPC message
@@ -13,19 +13,64 @@ class MessageObject(object):
 
         :return:
         """
+    def primitives(self):
+        """Return a serializable dictionary of self's contents
+
+        Args:
+
+        Returns:
+            A dictionary of self's primitives
+        """
+        prim_dict = {}
+        for key in self.__dict__:
+            elem = self.__dict__[key]
+            
+            # We determine whether elem is a serializable object, or whether
+            # we need to recursively call the primitives operator on a 
+            # MessageObject
+            # NOTE: this assumes all but message objects are serializable, so
+            # make sure to only use serializables or to override encode() when
+            # making subclasses of MessageObject
+
+            if MessageObject in inspect.getmro(type(elem)):
+                prim_dict[key] = elem.primitives()
+            else:
+                prim_dict[key] = elem
+        return prim_dict
+
     def encode(self):
         """
         Create an encoded version of self
         :return: Returns encoded self
         """
-        return json.dumps(self.__dict__)
+        return json.dumps(self.primitives())
 
 class VehicleState(MessageObject):
     """
     Encodable UAV craft state information
     """
-    #TODO: implment
-    pass
+    def __init__(self, vehicle_uid):
+        """Construct a new VehicleState object
+
+        Args:
+            vehicle_uid: a unique identifier string for the craft sending state
+
+        Returns: returns nothing
+        """
+        self.vehicle_uid = vehicle_uid
+        self.vehicle_is_armed = None
+        self.attitude_pitch = None
+        self.attitude_yaw = None
+        self.attitude_roll = None
+        self.velocity_array = None
+        self.airspeed = None
+        self.groundspeed = None
+        self.gps_fix_type = None
+        self.latitude = None
+        self.longitude = None
+        self.altitude_absolute = None
+        self.altitude_relative = None
+        self.battery_level = None
 
 class RadioState(MessageObject):
     """
@@ -41,64 +86,3 @@ class LogEvent(MessageObject):
     #TODO: implement
     pass
 
-class BeliefUpdateSquare(MessageObject):
-    """
-    Encodable belief state for an area
-    """
-    def __init__(self, lat_min, lat_max, lon_min, lon_max, confidence):
-        """
-        Creates a new 'BeliefUpdateSquare' object
-
-        :param lat_min: The minimum latitude of the grid
-        :param lat_max: The maximum latitude of the grid
-        :param lon_min: The minimum longitude of the grid
-        :param lon_max: The maximum longitude of the grid
-        :param confidence: The confidence of a signal source being in the   
-            square
-        :return: returns nothing
-        """
-        self.lat_min = lat_min
-        self.lat_max = lat_max
-        self.lon_min = lon_min
-        self.lon_max = lon_max
-        self.confidence = confidence
-
-class BeliefUpdate(MessageObject):
-    """
-    Encodable change in belief state
-    """
-    def __init__(self, belief_squares):
-        """
-        Creates a new instance of object.
-
-        :param belief_squares: An array of belief square objects
-        :return: returns nothing
-        """
-    def encode(self):
-        """
-        Returns an encoded version of self
-        """
-        #TODO: implement
-
-class BeliefGridRequest(MessageObject):
-    """
-    Message requesting a belief grid
-    Forces a BeliefUpdate to be sent for the specified area, with
-        the maximum specified resolution
-    """
-    def __init__(self, lat_min, lat_max, lon_min, lon_max, num_squares):
-        """
-        Creates a new 'BeliefGridRequest' object
-
-        :param lat_min: The minimum latitude of the grid
-        :param lat_max: The maximum latitude of the grid
-        :param lon_min: The minimum longitude of the grid
-        :param lon_max: The maximum longitude of the grid
-        :param num_square: The number of grid squares to create
-        :return: returns nothing
-        """
-        self.lat_min = lat_min
-        self.lat_max = lat_max
-        self.lon_min = lon_min
-        self.lon_max = lon_max
-        self.num_squares = num_squares
