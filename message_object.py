@@ -24,9 +24,8 @@ class MessageObject(object):
         prim_dict = {}
         for key in self.__dict__:
             elem = self.__dict__[key]
-            
             # We determine whether elem is a serializable object, or whether
-            # we need to recursively call the primitives operator on a 
+            # we need to recursively call the primitives operator on a
             # MessageObject
             # NOTE: this assumes all but message objects are serializable, so
             # make sure to only use serializables or to override encode() when
@@ -49,7 +48,7 @@ class VehicleState(MessageObject):
     """
     Encodable UAV craft state information
     """
-    def __init__(self, vehicle_uid):
+    def __init__(self, vehicle_uid, **kwargs):
         """Construct a new VehicleState object
 
         Args:
@@ -58,26 +57,41 @@ class VehicleState(MessageObject):
         Returns: returns nothing
         """
         self.vehicle_uid = vehicle_uid
-        self.vehicle_is_armed = None
-        self.attitude_pitch = None
-        self.attitude_yaw = None
-        self.attitude_roll = None
-        self.velocity_array = None
-        self.airspeed = None
-        self.groundspeed = None
-        self.gps_fix_type = None
-        self.latitude = None
-        self.longitude = None
-        self.altitude_absolute = None
-        self.altitude_relative = None
-        self.battery_level = None
+        self.vehicle_is_armed = kwargs.get("vehicle_is_armed")
+        self.attitude_pitch = kwargs.get("attitude_pitch")
+        self.attitude_yaw = kwargs.get("attitude_yaw")
+        self.attitude_roll = kawrgs.get("attitude_roll")
+        self.velocity_array = kwargs.get("velocity_array")
+        self.airspeed = kwargs.get("airspeed")
+        self.groundspeed = kwargs.get("groundspeed")
+        self.gps_fix_type = kwargs.get("gps_fix_type")
+        self.latitude = kwargs.get("latitude")
+        self.longitude = kwargs.get("longitude")
+        self.altitude_absolute = kwargs.get("altitude_absolute")
+        self.altitude_relative = kwargs.get("altitude_relative")
+        self.battery_level = kwargs.get("battery_level")
 
 class RadioState(MessageObject):
     """
     Encodable Doppler Radio signal state information
     """
-    #TODO: implement
-    pass
+    def __init__(self):
+      # A list of all the signals received in a given time-frame, generally
+      # assumed to be since we last received one of these messages.
+      self.__signals = []
+
+    def add_signal(self, lob, strength):
+      """ Add a new signal to the list of signals.
+      Args:
+        lob: The LOB to the object producing the signal.
+        strength: The strength of the signal. """
+      self.__signals.push_back((lob, strength))
+
+    def signals(self):
+      """
+      Returns:
+        All the signals stored in this structure, as a list. """
+      return self.__signals
 
 class LogEvent(MessageObject):
     """
@@ -85,4 +99,3 @@ class LogEvent(MessageObject):
     """
     #TODO: implement
     pass
-
