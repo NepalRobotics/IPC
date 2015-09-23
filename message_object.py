@@ -4,7 +4,7 @@ IPC sockets.
 """
 
 
-import json, inspect
+import json, inspect, time
 
 
 class MessageObject(object):
@@ -17,6 +17,7 @@ class MessageObject(object):
 
     :return:
     """
+    self.time_created = time.time()
   def primitives(self):
     """Return a serializable dictionary of self's contents
 
