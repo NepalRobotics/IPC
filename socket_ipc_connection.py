@@ -1,7 +1,7 @@
 import socket
 class SocketIPCConnection(object):
     """
-    Socket connection object, returned by IPC factory clas. Subclasses will be 
+    Socket connection object, returned by IPC factory clas. Subclasses will be
     specific to the connection target
     """
     def __init__(self, socket):

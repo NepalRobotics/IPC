@@ -26,7 +26,7 @@ class MessageObject(object):
             elem = self.__dict__[key]
             
             # We determine whether elem is a serializable object, or whether
-            # we need to recursively call the primitives operator on a 
+            # we need to recursively call the primitives operator on a
             # MessageObject
             # NOTE: this assumes all but message objects are serializable, so
             # make sure to only use serializables or to override encode() when
