@@ -4,7 +4,7 @@ class SocketIPCConnection(object):
     Socket connection object, returned by IPC factory clas. Subclasses will be
     specific to the connection target
     """
-    def __init__(self, socket):
+    def __init__(self, socket, message_object_class):
         """
         Construct a new 'SocketIPCConnection' object.
 
@@ -12,6 +12,7 @@ class SocketIPCConnection(object):
         :return: returns nothing
         """
         self._socket = socket
+        self._message_object_class = message_object_class
 
     def is_open(self):
         """
