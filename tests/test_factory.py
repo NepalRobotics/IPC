@@ -5,13 +5,16 @@ class TestIPCFactory(unittest.TestCase):
   
   def test_radio_belief(self):
 
-    completed_threads = 0
-    completed_threads_lock = threading.Lock()
+    class CompletedCount(object):
+      def __init__(self):
+        self.count = 0
+        self._lock = threading.Lock()
+      def incr(self):
+        self._lock.acquire(True)
+        self.count += 1
+        self._lock.release()
 
-    def incr_completed():
-      completed_threads_lock.acquire(blocking=True)
-      completed_threads += 1
-      completed_threads_lock.release()
+    completed_count = CompletedCount()
 
     def radio():
       print "Created radio"
@@ -20,7 +23,8 @@ class TestIPCFactory(unittest.TestCase):
       connection = factory.get_connection(endpoints.BeliefFromRadio)
       print "Radio connected"
       connection._socket.send("TestMessage")
-      incr_completed()
+      connection.close()
+      completed_count.incr()
   
     def belief():
       print "Created belief"
@@ -28,7 +32,8 @@ class TestIPCFactory(unittest.TestCase):
       print "Belief connected"
       data = connection._socket.recv(len("TestMessage"))
       print data
-      incr_completed()
+      connection.close()
+      completed_count.incr()
   
     rad = threading.Thread(target=radio)
     bel = threading.Thread(target=belief)
@@ -38,4 +43,4 @@ class TestIPCFactory(unittest.TestCase):
     bel.start()
     rad.join()
     bel.join()
-    self.assertEqual(2, completed_threads, "Not all threads completed properly")
+    self.assertEqual(2, completed_count.count, "Not all threads completed properly")
