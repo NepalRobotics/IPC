@@ -8,8 +8,10 @@ class SocketIPCConnection(object):
     """
     Construct a new 'SocketIPCConnection' object.
 
-    :param socket: An open socket to the remote host
-    :return: returns nothing
+    Args:
+      socket: An open socket to the remote host
+    Returns:
+      returns nothing
     """
     self._socket = socket
     self._message_object_class = message_object_class
@@ -18,7 +20,8 @@ class SocketIPCConnection(object):
     """
     Check whether the socket is still open.
 
-    :return: a boolean indicating whether the socket is open
+    Returns:
+      a boolean indicating whether the socket is open
     """
     return self._socket != None
 
@@ -26,7 +29,8 @@ class SocketIPCConnection(object):
     """
     Close an open socket.
 
-    :return: returns nothing
+    Returns:
+      returns nothing
     """
     self._socket.close()
     self._socket = None
@@ -37,7 +41,8 @@ class SocketIPCConnection(object):
 
     This is a blocking call.
 
-    :return: the next element in the stream
+    Returns:
+      the next element in the stream
     """
 
     #TODO: implement
@@ -49,7 +54,8 @@ class SocketIPCConnection(object):
 
     If an element is partially-written, then this function will block.
 
-    :return: the element at the head of the stream
+    Returns:
+      the element at the head of the stream
     """
 
     #TODO: implmenet
@@ -59,8 +65,10 @@ class SocketIPCConnection(object):
     """
     Write an element to the socket.
 
-    :param message_object: A data structure for transmission
-    :return: returns nothing
+    Args:
+      message_object: A data structure for transmission
+    Returns:
+      returns nothing
     """
     #TODO: implement
     return None
