@@ -15,7 +15,8 @@ class MessageObject(object):
     """
     Construct a new MessageObject object.
 
-    :return:
+    Returns:
+      A new instance of a message object
     """
     self.time_created = time.time()
   def primitives(self):
@@ -58,6 +59,7 @@ class VehicleState(MessageObject):
 
     Args:
         vehicle_uid: a unique identifier string for the craft sending state
+        **kwargs: Optional information
 
     Returns: returns nothing
     """
@@ -79,12 +81,16 @@ class VehicleState(MessageObject):
 class RadioState(MessageObject):
   """
   Encodable Doppler Radio signal state information
+
+  Args:
+    lob: the signal's Line of Bearing
+    strength: the signal strength metric
   """
-  def __init__(self, **kwargs):
+  def __init__(self, lob, strength):
     # The LOB to the signal source.
-    self.lob = kwargs.get("lob")
+    self.lob = lob
     # The strength of the signal.
-    self.strength = kwargs.get("strength")
+    self.strength = strength
 
 class LogEvent(MessageObject):
   """
