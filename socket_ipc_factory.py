@@ -1,4 +1,4 @@
-class SocketIPCFactory(Object):
+class SocketIPCFactory(object):
     """
     Generates connections to remote programs.
     """
