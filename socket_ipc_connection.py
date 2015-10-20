@@ -10,6 +10,7 @@ class SocketIPCConnection(object):
 
     Args:
       socket: An open socket to the remote host
+      message_object_class: The class of the message objects returned by getters
     Returns:
       returns nothing
     """

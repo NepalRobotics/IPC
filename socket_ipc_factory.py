@@ -13,7 +13,7 @@ def get_connection(endpoint):
 
   Args:
     endpoint: the connection type
-  Returns: 
+  Returns:
     A connection object
   """
   #Open socket
@@ -23,14 +23,14 @@ def get_connection(endpoint):
     socket = connect_server(endpoint.address)
   else:
     raise TypeError
-  
+
   #Encapsulate socket
   return SocketIPCConnection(socket, endpoint.message_class)
 
 def listen_client(address):
   """
   Listen for a client to connect to the address
-  
+
   Args:
     address: the unix domain socket address to bind to
   Returns:
@@ -38,7 +38,7 @@ def listen_client(address):
   """
   #Create socket
   uds = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-  
+
   #Bind socket
   uds.bind(address)
 
