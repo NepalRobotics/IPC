@@ -1,10 +1,9 @@
-#!/usr/bin/python
 import socket_ipc_factory, endpoints, threading, time, unittest
 
 class TestIPCFactory(unittest.TestCase):
   
   def test_radio_belief(self):
-
+    #TODO: add docstring comment
     class CompletedCount(object):
       def __init__(self):
         self.count = 0
@@ -16,22 +15,19 @@ class TestIPCFactory(unittest.TestCase):
 
     completed_count = CompletedCount()
 
+    test_message = "TestMessage"
+
     def radio():
-      print "Created radio"
       factory = socket_ipc_factory
-      print "Created factory"
       connection = factory.get_connection(endpoints.BeliefFromRadio)
-      print "Radio connected"
-      connection._socket.send("TestMessage")
+      connection._socket.send(test_message)
       connection.close()
       completed_count.incr()
   
     def belief():
-      print "Created belief"
       connection = socket_ipc_factory.get_connection(endpoints.RadioFromBelief())
-      print "Belief connected"
       data = connection._socket.recv(len("TestMessage"))
-      print data
+      self.assertEqual(data, test_message, "Test message corrupted")
       connection.close()
       completed_count.incr()
   
@@ -40,7 +36,9 @@ class TestIPCFactory(unittest.TestCase):
   
     print "Starting threads"
     rad.start()
+    time.sleep(1)
     bel.start()
     rad.join()
     bel.join()
     self.assertEqual(2, completed_count.count, "Not all threads completed properly")
+    print "Done"
