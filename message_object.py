@@ -67,7 +67,7 @@ class VehicleState(MessageObject):
     self.vehicle_is_armed = kwargs.get("vehicle_is_armed")
     self.attitude_pitch = kwargs.get("attitude_pitch")
     self.attitude_yaw = kwargs.get("attitude_yaw")
-    self.attitude_roll = kawrgs.get("attitude_roll")
+    self.attitude_roll = kwargs.get("attitude_roll")
     self.velocity_array = kwargs.get("velocity_array")
     self.airspeed = kwargs.get("airspeed")
     self.groundspeed = kwargs.get("groundspeed")
