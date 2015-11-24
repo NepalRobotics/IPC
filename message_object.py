@@ -3,9 +3,7 @@ This module contains classes for sending/receiving encoded data over
 IPC sockets.
 """
 
-
 import json, inspect, time
-
 
 class MessageObject(object):
   """
@@ -63,6 +61,7 @@ class VehicleState(MessageObject):
 
     Returns: returns nothing
     """
+    MessageObject.__init__()
     self.vehicle_uid = vehicle_uid
     self.vehicle_is_armed = kwargs.get("vehicle_is_armed")
     self.attitude_pitch = kwargs.get("attitude_pitch")
@@ -87,6 +86,7 @@ class RadioState(MessageObject):
     strength: the signal strength metric
   """
   def __init__(self, lob, strength):
+    MessageObject.__init__()
     # The LOB to the signal source.
     self.lob = lob
     # The strength of the signal.
