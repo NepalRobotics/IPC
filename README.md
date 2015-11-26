@@ -1,3 +1,2 @@
 # IPC
-Simple Project-Specific Inter-process Communication Library
-
+Simple repo for consistent messaging between processes spawned by Core.
