@@ -1,2 +1,3 @@
-# IPC
-Simple repo for consistent messaging between processes spawned by Core.
+# Dead REPO
+
+This REPO has been superceeded by Core.
