@@ -51,7 +51,13 @@ class QueueLoggingHandler(logging.Handler):
         record: The message to write. """
     try:
       message = self.format(record)
-      self.__queue.put(message)
+      if not self.__queue:
+        # This would really only happen during unit testing. If that is the
+        # case, print any important messages to stdout.
+        if record.levelno >= 30:
+          print message
+      else:
+        self.__queue.put(message)
 
     except (KeyboardInterrupt, SystemExit):
       raise
