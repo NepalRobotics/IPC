@@ -111,8 +111,8 @@ class BeliefMessage(MessageObject):
 
     # Drone position and velocity measurements. Positions are relative to the
     # WGS84 coordinate system, and velocities are in m/s.
-    self.latitude = kwargs.get("latitude")
-    self.longitude = kwargs.get("longitude")
+    self.x_pos = kwargs.get("x_pos")
+    self.y_pos = kwargs.get("y_pos")
     self.x_velocity = kwargs.get("x_velocity")
     self.y_velocity = kwargs.get("y_velocity")
 
@@ -120,7 +120,7 @@ class BeliefMessage(MessageObject):
     """ Initializes all parameters to zero, and clears radio data. """
     self.radio_data = []
 
-    self.latitude = 0
-    self.longitude = 0
+    self.x_pos = 0
+    self.y_pos = 0
     self.x_velocity = 0
     self.y_velocity = 0
