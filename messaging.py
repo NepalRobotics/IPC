@@ -16,10 +16,11 @@ class Messenger(object):
     """
       Enum for messenger queues
     """
-    uavStatus = 'uavStatus'
-    toBelief = 'toBelief'
-    fromRadio = 'fromRadio'
-    logging = 'logging'
+    uavStatus = "uavStatus"
+    toBelief = "toBelief"
+    fromRadio = "fromRadio"
+    logging = "logging"
+    navigationState = "navigationState"
 
   class Mailbox(object):
     """
@@ -96,8 +97,8 @@ class Messenger(object):
     self._queue_map[self.Queues.uavStatus] = Queue()
     self._queue_map[self.Queues.toBelief] = Queue()
     self._queue_map[self.Queues.fromRadio] = Queue()
-
     self._queue_map[self.Queues.logging] = Queue()
+    self._queue_map[self.Queues.navigationState] = Queue()
 
   def get_queue(self, queue_name):
     return self._queue_map[queue_name]
