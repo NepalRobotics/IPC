@@ -116,6 +116,10 @@ class BeliefMessage(MessageObject):
     self.x_velocity = kwargs.get("x_velocity")
     self.y_velocity = kwargs.get("y_velocity")
 
+    # Data from the Nav system with our target velocity. (m/s)
+    self.x_target_velocity = kwargs.get("x_target_velocity")
+    self.y_target_velocity = kwargs.get("y_target_velocity")
+
   def zero(self):
     """ Initializes all parameters to zero, and clears radio data. """
     self.radio_data = []
@@ -124,3 +128,16 @@ class BeliefMessage(MessageObject):
     self.y_pos = 0
     self.x_velocity = 0
     self.y_velocity = 0
+
+    self.x_target_velocity = 0
+    self.y_target_velocity = 0
+
+class NavigationState(MessageObject):
+  """ A message that goes from the navigation system to the belief system. """
+
+  def __init__(self, **kwargs):
+    super(NavigationState, self).__init__()
+
+    # Our target velocity at this time. (m/s)
+    self.x_target_velocity = kwargs.get("x_target_velocity")
+    self.y_target_velocity = kwargs.get("y_target_velocity")
